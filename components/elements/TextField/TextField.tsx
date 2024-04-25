@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface TextFieldProps {
-  onClick: () => void;
+  onClick?: () => void;
   onChange?: () => void;
   type?: "email" | "password" | "text";
   disabled?: boolean;
@@ -21,7 +21,7 @@ const TextField = ({
   placeholder = "",
   prependIcon,
 }: TextFieldProps) => {
-  let classNamesOuterLayer = `w-full rounded-2xl bg-white_02 hover:bg-white_05 flex gap-3 items-center ${classNameOuterLayer}`;
+  let classNamesOuterLayer = `w-full rounded-2xl bg-white_02 hover:bg-white_05 flex gap-3 items-center h-14 ${classNameOuterLayer}`;
   let classNames = `outline-none bg-transparent py-3 w-full ${className} ${prependIcon ? "pl-0" : "px-4"}`;
 
   return (
