@@ -119,7 +119,7 @@ const TransactionDetailView = ({
 
           <TransactionDetailCard title="Reward">
             <div className="flex justify-center items-center gap-2">
-              <div className="bg-black w-4 h-4 rounded-full flex items-center justify-center">
+              <div className="bg-black w-4 h-4 p-1 rounded-full flex items-center justify-center">
                 <SolanaIcon size="s" />
               </div>
               <p>{selected.rewardSol.toFixed(3)}</p>

@@ -110,7 +110,7 @@ const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
                 {applyEllipse(block.leader)}
               </td>
               <td className="p-4 flex items-center gap-2 rounded-tr-2xl group-hover:bg-white_05 bg-white_02 rounded-br-2xl">
-                <div className="bg-black w-4 h-4 rounded-full flex items-center justify-center">
+                <div className="bg-black w-4 h-4 p-1 rounded-full flex items-center justify-center">
                   <SolanaIcon size="s" />
                 </div>
                 <p>
