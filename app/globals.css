@@ -5,18 +5,10 @@
 @import '~react-toastify/dist/ReactToastify.min.css';
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 15, 15, 15;
   --background-end-rgb: 15, 15, 15;
   --font-size: 14px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 15, 15, 15;
-    --background-end-rgb: 15, 15, 15;
-  }
 }
 
 body {

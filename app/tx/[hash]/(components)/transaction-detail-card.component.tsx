@@ -14,7 +14,7 @@ const TransactionDetailCard = ({
   return (
     <Card className={className}>
       <p className="text-titanium text-xs">{title}</p>
-      <div className="text-white">{children}</div>
+      <div>{children}</div>
     </Card>
   );
 };

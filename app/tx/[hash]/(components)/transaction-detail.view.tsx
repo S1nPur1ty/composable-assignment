@@ -80,7 +80,7 @@ const TransactionDetailView = ({
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <TransactionDetailCard title="Block">
             <div className="flex items-center gap-2 justify-center">
-              <p className="text-white">#{selected.slot}</p>
+              <p>#{selected.slot}</p>
               <BiSolidCopy
                 size={16}
                 className="text-titanium hover:text-white cursor-pointer"
