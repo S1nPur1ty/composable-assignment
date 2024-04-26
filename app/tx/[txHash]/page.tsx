@@ -1,5 +1,13 @@
-import TransactionDetailView from "@/components/views/TransactionDetail/TransactionDetail.view";
+import TransactionDetailView from "@/app/tx/[txHash]/(components)/transaction-detail.view";
 
-export default function TransactionDetailPage() {
-  return <TransactionDetailView />;
+interface TransactionDetailPageProps {
+  params: {
+    txHash: string;
+  };
+}
+
+export default function TransactionDetailPage(
+  props: TransactionDetailPageProps
+) {
+  return <TransactionDetailView {...props} />;
 }

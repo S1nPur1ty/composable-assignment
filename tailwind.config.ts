@@ -35,6 +35,9 @@ const config: Config = {
       width: {
         '30': '7.5rem',
       },
+      maxWidth: {
+        'inner': '800px',
+      },
       minWidth: {
         '30': '7.5rem',
       }

@@ -1,21 +1,24 @@
-// blocks.atom.ts
 import { Block } from "@/models/Block.model";
 import { atom } from "jotai";
+import { atomWithQuery } from 'jotai-tanstack-query'
 
-const blocksList = atom([]);
 const selectedBlock = atom<Block | null>(null);
+const hashAtom = atom<string | null>(null)
 
-const FetchBlocks = async () => {
-  const response = await fetch("/api/blocks");
-  const data = await response.json();
-  return data;
-};
+const selectedBlockAtom = atomWithQuery<Block>((get) => ({
+  queryKey: ['block', get(hashAtom)],
+  queryFn: async ({ queryKey: [, hash], }) => {
+    const res = await fetch(`/api/blocks/${hash}`);
+    return res.json()
+  },
+}))
 
-const FetchBlock = async (hash: string) => {
-  const response = await fetch(`/api/blocks/${hash}`);
-  const data = await response.json();
+const blocksListAtom = atomWithQuery<Block[]>(() => ({
+  queryKey: ['blocks'],
+  queryFn: async () => {
+    const res = await fetch(`/api/blocks`);
+    return res.json()
+  },
+}))
 
-  return data;
-};
-
-export { blocksList, FetchBlocks, FetchBlock, selectedBlock };
+export { selectedBlock, hashAtom, blocksListAtom, selectedBlockAtom };

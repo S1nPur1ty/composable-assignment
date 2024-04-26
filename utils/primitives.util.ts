@@ -11,11 +11,11 @@ const applyEllipse = (
   return text.replace(text.slice(first, text.length - last), ellipsis);
 };
 
-const formatTimestamp = (timestamp: string) => {
+const formatTimestamp = (timestamp: string, style = 'MMM dd, yyyy HH:mm:ss') => {
   if (!timestamp) return;
 
   const date = parseISO(timestamp);
-  const formattedDateTime = format(date, 'MMM dd, yyyy HH:mm:ss');
+  const formattedDateTime = format(date, style);
 
   return formattedDateTime;
 };

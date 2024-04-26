@@ -9,7 +9,7 @@ export interface CardProps {
 const Card = ({ children, className, onClick }: CardProps) => {
   return (
     <div
-      className={`bg-white_02 shadow-md rounded-3xl p-5 ${className}`}
+      className={`flex flex-col gap-2 bg-white_02 shadow-md rounded-3xl p-5 ${className}`}
       onClick={onClick}
     >
       {children}

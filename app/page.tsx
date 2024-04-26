@@ -1,4 +1,4 @@
-import LandingView from "@/components/views/Landing/Landing.view";
+import LandingView from "@/app/(components)/landing.view";
 
 export default function LandingPage() {
   return <LandingView />;

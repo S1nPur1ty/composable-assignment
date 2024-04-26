@@ -1,20 +1,33 @@
-export interface ButtonProps {
+import Link from "next/link";
+
+interface BaseButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
   variant?: "default" | "outline";
   size?: "small" | "medium" | "large";
   disabled?: boolean;
   className?: string;
 }
 
-const Button = ({
-  children,
-  onClick,
-  variant = "default",
-  size = "medium",
-  disabled = false,
-  className = "",
-}: ButtonProps) => {
+interface ButtonButtonProps extends BaseButtonProps {
+  as?: "button";
+  onClick?: () => void;
+}
+
+interface LinkButtonProps extends BaseButtonProps {
+  as: "a";
+  href: string;
+}
+
+export type ButtonProps = LinkButtonProps | ButtonButtonProps;
+
+const Button = (props: ButtonProps) => {
+  const {
+    children,
+    variant = "default",
+    size = "medium",
+    disabled = false,
+    className = "",
+  } = props;
   let classNames = `font-bold rounded-full py-3 px-5 ${className}`;
 
   switch (size) {
@@ -41,8 +54,15 @@ const Button = ({
         : " bg-white_02 hover:bg-white_05 active:bg-white_02";
   }
 
+  if (props.as === "a")
+    return (
+      <Link className={classNames} href={props.href}>
+        {children}
+      </Link>
+    );
+
   return (
-    <button onClick={onClick} className={classNames}>
+    <button onClick={props.onClick} className={classNames}>
       {children}
     </button>
   );
