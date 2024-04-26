@@ -11,7 +11,7 @@ export interface HeaderProps {
 const Header = ({ href, title, description }: HeaderProps) => {
   return (
     <div
-      className={`grid grid-cols-[${href ? "auto_1fr" : "1fr"}] gap-6 items-center`}
+      className={`grid ${href ? "grid-cols-[auto_1fr]" : "grid-cols-1"} gap-6 items-center`}
     >
       {href && (
         <Button
