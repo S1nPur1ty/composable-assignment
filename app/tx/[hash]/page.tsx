@@ -1,8 +1,8 @@
-import TransactionDetailView from "@/app/tx/[txHash]/(components)/transaction-detail.view";
+import TransactionDetailView from "@/app/tx/[hash]/(components)/transaction-detail.view";
 
 interface TransactionDetailPageProps {
   params: {
-    txHash: string;
+    hash: string;
   };
 }
 

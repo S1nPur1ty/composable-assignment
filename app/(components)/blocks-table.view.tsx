@@ -106,7 +106,7 @@ const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
               <td className="p-4 group-hover:bg-white_05 bg-white_02">
                 {block.txCount}
               </td>
-              <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary">
+              <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary hover:underline">
                 {applyEllipse(block.leader)}
               </td>
               <td className="p-4 flex items-center gap-2 rounded-tr-2xl group-hover:bg-white_05 bg-white_02 rounded-br-2xl">

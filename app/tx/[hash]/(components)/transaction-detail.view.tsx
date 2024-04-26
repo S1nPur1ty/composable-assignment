@@ -17,12 +17,12 @@ import TransactionDetailCard from "./transaction-detail-card.component";
 
 interface TransactionDetailViewProps {
   params: {
-    txHash: string;
+    hash: string;
   };
 }
 
 const TransactionDetailView = ({
-  params: { txHash },
+  params: { hash },
 }: TransactionDetailViewProps) => {
   const [
     {
@@ -36,8 +36,8 @@ const TransactionDetailView = ({
   const [, setHash] = useAtom(hashAtom);
 
   useEffect(() => {
-    setHash(txHash);
-  }, [txHash, setHash]);
+    setHash(hash);
+  }, [hash, setHash]);
 
   const [{ data: selected, isLoading, isError, refetch }] =
     useAtom(selectedBlockAtom);
