@@ -48,7 +48,7 @@ const BlocksTableView = () => {
         <thead className="text-xs text-left">
           <tr>
             {headerItems.map((item, index) => (
-              <th key={index} className="px-4 py-2 bg-dark">
+              <th key={index} className="px-4 py-2 bg-dark font-normal">
                 {item}
               </th>
             ))}
