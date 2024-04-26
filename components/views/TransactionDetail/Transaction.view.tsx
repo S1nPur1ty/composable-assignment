@@ -5,6 +5,7 @@ import Card from "@/components/elements/Card/Card";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { BiSolidCopy } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 interface TransactionDetailViewProps {}
 
@@ -12,6 +13,8 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
   const router = useRouter();
   const params = useParams();
   const goBack = () => router.replace("/");
+
+  const notify = () => toast("Copied to clipboard");
 
   return (
     <div className="flex flex-col gap-10">
@@ -58,7 +61,11 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
               <p className="text-white/60">Block</p>
               <div className="flex items-center gap-2 justify-center">
                 <p className="text-white">#249362853</p>
-                <BiSolidCopy size={16} className="text-white/60" />
+                <BiSolidCopy
+                  size={16}
+                  className="text-white/60 hover:text-white cursor-pointer"
+                  onClick={notify}
+                />
               </div>
             </div>
           </Card>
@@ -95,7 +102,11 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
               <p className="text-primary">Leader</p>
               <div className="flex items-center gap-2 justify-center">
                 <p className="text-white">249362853</p>
-                <BiSolidCopy size={16} className="text-white/60" />
+                <BiSolidCopy
+                  size={16}
+                  className="text-white/60 hover:text-white cursor-pointer"
+                  onClick={notify}
+                />
               </div>
             </div>
           </Card>

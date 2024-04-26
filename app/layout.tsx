@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Gilroy } from "@/utils/localFonts";
 import Frame from "@/components/views/Frame";
 
+import { ToastContainer } from "react-toastify";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={Gilroy.variable}>
         <Frame>{children}</Frame>
+        <ToastContainer />
       </body>
     </html>
   );
