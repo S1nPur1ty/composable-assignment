@@ -1,11 +1,16 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { DateToRelativeTime } from "@/utils/DateToRelativeTime";
 import { Block } from "@/models/Block.model";
 import Image from "next/image";
 import { applyEllipse } from "@/utils/primitives.util";
+import { useRouter } from "next/navigation";
 
 const BlocksTableView = () => {
+  const router = useRouter();
+  const goToTxDetail = (blockHash: string) => router.push(`/tx/${blockHash}`);
+
   const [headerItems] = useState<string[]>([
     "Block Hash",
     "Slot",
@@ -66,11 +71,12 @@ const BlocksTableView = () => {
               <tr
                 key={block.blockHash}
                 className="cursor-pointer hover:text-white rounded-2xl group"
+                onClick={() => goToTxDetail(block.blockHash)}
               >
-                <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary underline rounded-tl-2xl rounded-bl-2xl">
+                <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary hover:underline rounded-tl-2xl rounded-bl-2xl">
                   {applyEllipse(block.blockHash)}
                 </td>
-                <td className="p-4 text-primary underline group-hover:bg-white_05 bg-white_02">
+                <td className="p-4 text-primary hover:underline group-hover:bg-white_05 bg-white_02">
                   #{block.slot}
                 </td>
                 <td className="p-4 group-hover:bg-white_05 bg-white_02">

@@ -9,7 +9,7 @@ export interface CardProps {
 const Card = ({ children, className, onClick }: CardProps) => {
   return (
     <div
-      className={`bg-white_02 hover:bg-white_05 shadow-md rounded-3xl p-4 ${className}`}
+      className={`bg-white_02 shadow-md rounded-3xl p-5 ${className}`}
       onClick={onClick}
     >
       {children}

@@ -1,6 +1,6 @@
 export interface ButtonProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: "default" | "outline";
   size?: "small" | "medium" | "large";
   disabled?: boolean;
