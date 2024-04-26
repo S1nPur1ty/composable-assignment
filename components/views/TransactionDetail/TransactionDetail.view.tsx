@@ -33,8 +33,6 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
       FetchBlock(params.txHash as string).then((block) => setSelected(block));
   }, []);
 
-  console.log(solPrice);
-
   const notify = () =>
     toast(
       <div className="flex items-center gap-2">
@@ -85,8 +83,8 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
       </div>
 
       <div className="flex flex-col gap-3 text-center">
-        <div className="flex gap-3">
-          <Card className="w-1/4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <Card>
             <div className="flex flex-col gap-2">
               <p className="text-titanium text-xs">Block</p>
               <div className="flex items-center gap-2 justify-center">
@@ -99,7 +97,7 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
               </div>
             </div>
           </Card>
-          <Card className="w-1/4">
+          <Card>
             <div className="flex flex-col gap-2">
               <p className="text-titanium text-xs">Timestamp</p>
               <p className="text-white">
@@ -107,7 +105,7 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
               </p>
             </div>
           </Card>
-          <Card className="w-1/4">
+          <Card>
             <div className="flex flex-col gap-2">
               <p className="text-titanium text-xs">Date (UTC)</p>
               <p className="text-white">
@@ -115,7 +113,7 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
               </p>
             </div>
           </Card>
-          <Card className="w-1/4">
+          <Card>
             <div className="flex flex-col gap-2">
               <p className="text-titanium text-xs">Transactions</p>
               <p className="text-white">{selected.txCount}</p>

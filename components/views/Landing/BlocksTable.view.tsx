@@ -35,8 +35,6 @@ const BlocksTableView = () => {
     FetchBlocks().then((blocks) => setBlocks(blocks));
   }, []);
 
-  console.log(solPrice);
-
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-titanium whitespace-nowrap border-separate border-spacing-y-1">
