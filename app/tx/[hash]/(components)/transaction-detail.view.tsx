@@ -69,7 +69,7 @@ const TransactionDetailView = ({
   };
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="grid grid-rows-[auto, 1fr] gap-10">
       <Header
         title={`Block #${selected.slot}`}
         description={"Check the block details."}
