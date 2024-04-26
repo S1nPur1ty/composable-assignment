@@ -1,6 +1,7 @@
 "use client";
 
 import { FetchBlock, selectedBlock } from "@/atoms/blocks.atom";
+import { fetchSolanaPrice, solanaPrice } from "@/atoms/priceFeed.atom";
 import Button from "@/components/elements/Button/Button";
 import Card from "@/components/elements/Card/Card";
 import { DateToRelativeTime } from "@/utils/DateToRelativeTime";
@@ -18,6 +19,7 @@ interface TransactionDetailViewProps {}
 
 const TransactionDetailView = ({}: TransactionDetailViewProps) => {
   const [selected, setSelected] = useAtom(selectedBlock);
+  const [solPrice, setSolPrice] = useAtom<number>(solanaPrice);
 
   const router = useRouter();
   const params = useParams();
@@ -25,9 +27,13 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
   const goBack = () => router.replace("/");
 
   useEffect(() => {
+    if (solPrice === 0) fetchSolanaPrice().then((price) => setSolPrice(price));
+
     if (!selected)
       FetchBlock(params.txHash as string).then((block) => setSelected(block));
   }, []);
+
+  console.log(solPrice);
 
   const notify = () =>
     toast(
@@ -141,7 +147,21 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
           <Card className="w-1/2">
             <div className="flex flex-col gap-2">
               <p className="text-titanium text-xs">Reward</p>
-              <p className="text-white">1h 43m 12s ago</p>
+              <div className="text-white flex justify-center items-center gap-2">
+                <div className="bg-black w-4 h-4 rounded-full flex items-center justify-center">
+                  <Image
+                    src={"/assets/images/sol.svg"}
+                    alt="Solana"
+                    width={9.33}
+                    height={8.56}
+                  />
+                </div>
+                <p>{selected.rewardSol.toFixed(3)}</p>
+                <p className="text-titanium">
+                  SOL ($ {(solPrice * selected.rewardSol).toFixed(2)} @ $
+                  {solPrice && solPrice.toFixed(2)})
+                </p>
+              </div>
             </div>
           </Card>
         </div>

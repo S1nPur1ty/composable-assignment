@@ -8,6 +8,7 @@ import { applyEllipse } from "@/utils/primitives.util";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { FetchBlocks, blocksList, selectedBlock } from "@/atoms/blocks.atom";
+import { fetchSolanaPrice, solanaPrice } from "@/atoms/priceFeed.atom";
 
 const BlocksTableView = () => {
   const router = useRouter();
@@ -25,26 +26,16 @@ const BlocksTableView = () => {
     "Reward",
   ]);
 
-  const [solanaPrice, setSolanaPrice] = useState<number>(0);
+  const [solPrice, setSolPrice] = useAtom<number>(solanaPrice);
   const [blocks, setBlocks] = useAtom(blocksList);
   const [, setSelected] = useAtom(selectedBlock);
 
   useEffect(() => {
-    const fetchSolPrice = async () => {
-      try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
-        );
-        const data = await response.json();
-        setSolanaPrice(data.solana.usd);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchSolPrice();
+    fetchSolanaPrice().then((price) => setSolPrice(price));
     FetchBlocks().then((blocks) => setBlocks(blocks));
   }, []);
+
+  console.log(solPrice);
 
   return (
     <div className="overflow-x-auto">
@@ -98,7 +89,7 @@ const BlocksTableView = () => {
                   </div>
                   <p>
                     {block.rewardSol.toFixed(2)} SOL (${" "}
-                    {(solanaPrice * block.rewardSol).toFixed(2)})
+                    {(solPrice * block.rewardSol).toFixed(2)})
                   </p>
                 </td>
               </tr>
