@@ -8,7 +8,7 @@ const Gilroy = localFont({
       style: 'normal',
     },
     {
-      path: '../assets/fonts/gilroy/extralight.ttf',
+      path: '../assets/fonts/gilroy/extraLight.ttf',
       weight: '200',
       style: 'normal',
     },
@@ -28,7 +28,7 @@ const Gilroy = localFont({
       style: 'normal',
     },
     {
-      path: '../assets/fonts/gilroy/semibold.ttf',
+      path: '../assets/fonts/gilroy/semiBold.ttf',
       weight: '600',
       style: 'normal',
     },
@@ -38,7 +38,7 @@ const Gilroy = localFont({
       style: 'normal',
     },
     {
-      path: '../assets/fonts/gilroy/extrabold.ttf',
+      path: '../assets/fonts/gilroy/extraBold.ttf',
       weight: '800',
       style: 'normal',
     },
