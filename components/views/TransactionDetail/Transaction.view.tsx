@@ -5,6 +5,7 @@ import Card from "@/components/elements/Card/Card";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { BiSolidCopy } from "react-icons/bi";
+import { GoCheckCircleFill } from "react-icons/go";
 import { toast } from "react-toastify";
 
 interface TransactionDetailViewProps {}
@@ -14,7 +15,14 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
   const params = useParams();
   const goBack = () => router.replace("/");
 
-  const notify = () => toast("Copied to clipboard");
+  const notify = () =>
+    toast(
+      <div className="flex items-center gap-2">
+        <GoCheckCircleFill size={16} />
+        <p className="text-xs">Copied to clipboard</p>
+      </div>,
+      { closeButton: false }
+    );
 
   return (
     <div className="flex flex-col gap-10">

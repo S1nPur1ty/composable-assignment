@@ -14,6 +14,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#52F2B9",
+        peppermint: "#81FFD9",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -24,6 +25,7 @@ const config: Config = {
         white_02: "rgba(255, 255, 255, 0.02)",
         white_05: "rgba(255, 255, 255, 0.05)",
         dark: '#0F0F0F',
+        trans_green: 'rgba(82,242,185,0.1)',
       },
       borderColor: {
         white_02: "rgba(255, 255, 255, 0.02)",
