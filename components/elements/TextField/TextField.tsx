@@ -2,7 +2,7 @@ import React from "react";
 
 export interface TextFieldProps {
   onClick?: () => void;
-  onChange?: () => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type?: "email" | "password" | "text";
   disabled?: boolean;
   classNameOuterLayer?: string;

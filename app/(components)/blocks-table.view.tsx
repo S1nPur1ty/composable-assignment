@@ -11,7 +11,11 @@ import { solanaPriceAtom } from "@/atoms/priceFeed.atom";
 import RetryableError from "@/components/elements/Errors/RetryableError";
 import SolanaIcon from "@/components/icons/solana.icon";
 
-const BlocksTableView = () => {
+interface BlocksTableViewProps {
+  filter: string;
+}
+
+const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
   const router = useRouter();
 
   const [
@@ -59,6 +63,18 @@ const BlocksTableView = () => {
 
   if (isLoading) return <div>Loading</div>;
 
+  const applyFilter = () => {
+    if (!filter) return blocks;
+
+    return blocks.filter((block) => {
+      return (
+        block.blockHash.toLowerCase().includes(filter.toLowerCase()) ||
+        block.leader.toLowerCase().includes(filter.toLowerCase()) ||
+        block.slot.toString().includes(filter)
+      );
+    });
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-titanium whitespace-nowrap border-separate border-spacing-y-1">
@@ -72,7 +88,7 @@ const BlocksTableView = () => {
           </tr>
         </thead>
         <tbody>
-          {blocks.map((block: Block) => (
+          {applyFilter().map((block: Block) => (
             <tr
               key={block.blockHash}
               className="cursor-pointer hover:text-white rounded-2xl group"

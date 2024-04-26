@@ -1,11 +1,14 @@
+"use client";
+
 import TextField from "@/components/elements/TextField/TextField";
 import { IoSearchOutline } from "react-icons/io5";
 import BlocksTableView from "./blocks-table.view";
 import Header from "@/components/elements/Header/Header";
+import { useState } from "react";
 
-interface LandingViewProps {}
+const LandingView = () => {
+  const [filter, setFilter] = useState("");
 
-const LandingView = ({}: LandingViewProps) => {
   return (
     <div className="flex flex-col gap-10">
       <Header
@@ -15,11 +18,12 @@ const LandingView = ({}: LandingViewProps) => {
 
       <TextField
         prependIcon={<IoSearchOutline />}
+        onChange={(e) => setFilter(e.target.value)}
         placeholder="Search for transactions, blocks & accounts"
         className="placeholder-titanium"
       />
 
-      <BlocksTableView />
+      <BlocksTableView filter={filter} />
     </div>
   );
 };
