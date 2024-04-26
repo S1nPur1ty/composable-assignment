@@ -14,69 +14,93 @@ const BlocksTableView = () => {
     "Leader",
     "Reward",
   ]);
-
   const [blocks, setBlocks] = useState<Block[]>();
+  const [solanaPrice, setSolanaPrice] = useState<number>(0);
 
   useEffect(() => {
-    async function getBlocks() {
+    const fetchSolPrice = async () => {
+      try {
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
+        );
+        const data = await response.json();
+        setSolanaPrice(data.solana.usd);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const fetchBlocks = async () => {
       const response = await fetch("/api/blocks");
       const data = await response.json();
       setBlocks(data);
-    }
-    getBlocks();
+    };
+
+    fetchSolPrice();
+    fetchBlocks();
 
     return () => {};
   }, []);
 
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-between p-4 sticky top-0">
-        {headerItems.map((item, index) => (
-          <div
-            key={index}
-            className={`flex gap-1 w-1/6 items-center cursor-pointer hover:text-white`}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-col gap-1">
-        {!blocks ? (
-          <div className="flex items-center justify-center mt-20">
-            Loading...
-          </div>
-        ) : (
-          blocks.map((block: Block) => (
-            <div
-              key={block.blockHash}
-              className="flex gap-3 items-center justify-between hover:bg-white_05 bg-white_02 cursor-pointer rounded-2xl p-4 text-sm"
-            >
-              <div className="w-1/6 text-primary underline">
-                {applyEllipse(block.blockHash)}
-              </div>
-              <div className="w-1/6 text-primary underline">#{block.slot}</div>
-              <div className="w-1/6">
-                <DateToRelativeTime date={new Date(block.timestamp)} />
-              </div>
-              <div className="w-1/6">{block.txCount}</div>
-              <div className="w-1/6 text-primary">
-                {applyEllipse(block.leader)}
-              </div>
-              <div className="w-1/6 flex items-center gap-2">
-                <div className="bg-black w-4 h-4 rounded-full flex items-center justify-center">
-                  <Image
-                    src={"/assets/images/sol.svg"}
-                    alt="Solana"
-                    width={9.33}
-                    height={8.56}
-                  />
-                </div>
-                {block.rewardSol.toFixed(2)} SOL
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-white/60 whitespace-nowrap border-separate border-spacing-y-1">
+        <thead className="text-xs text-left">
+          <tr>
+            {headerItems.map((item, index) => (
+              <th key={index} className="px-4 py-2 bg-dark">
+                {item}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {!blocks ? (
+            <tr>
+              <td colSpan={headerItems.length} className="py-20 text-center">
+                Loading...
+              </td>
+            </tr>
+          ) : (
+            blocks.map((block: Block) => (
+              <tr
+                key={block.blockHash}
+                className="cursor-pointer hover:text-white rounded-2xl group"
+              >
+                <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary underline rounded-tl-2xl rounded-bl-2xl">
+                  {applyEllipse(block.blockHash)}
+                </td>
+                <td className="p-4 text-primary underline group-hover:bg-white_05 bg-white_02">
+                  #{block.slot}
+                </td>
+                <td className="p-4 group-hover:bg-white_05 bg-white_02">
+                  <DateToRelativeTime date={new Date(block.timestamp)} />
+                </td>
+                <td className="p-4 group-hover:bg-white_05 bg-white_02">
+                  {block.txCount}
+                </td>
+                <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary">
+                  {applyEllipse(block.leader)}
+                </td>
+                <td className="p-4 flex items-center gap-2 rounded-tr-2xl group-hover:bg-white_05 bg-white_02 rounded-br-2xl">
+                  <div className="bg-black w-4 h-4 rounded-full flex items-center justify-center">
+                    <Image
+                      src={"/assets/images/sol.svg"}
+                      alt="Solana"
+                      width={9.33}
+                      height={8.56}
+                    />
+                  </div>
+                  <p>
+                    {block.rewardSol.toFixed(2)} SOL (${" "}
+                    {(solanaPrice * block.rewardSol).toFixed(2)})
+                  </p>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

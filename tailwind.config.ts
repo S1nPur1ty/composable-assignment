@@ -8,6 +8,9 @@ const config: Config = {
   ],
   darkMode: "class",
   theme: {
+    fontFamily: {
+      gilroy: ["var(--font-gilroy)"],
+    },
     extend: {
       colors: {
         primary: "#52F2B9",
@@ -20,10 +23,17 @@ const config: Config = {
       backgroundColor: {
         white_02: "rgba(255, 255, 255, 0.02)",
         white_05: "rgba(255, 255, 255, 0.05)",
+        dark: '#0F0F0F',
       },
       borderColor: {
         white_02: "rgba(255, 255, 255, 0.02)",
         white_05: "rgba(255, 255, 255, 0.05)",
+      },
+      width: {
+        '30': '7.5rem',
+      },
+      minWidth: {
+        '30': '7.5rem',
       }
     },
   },
