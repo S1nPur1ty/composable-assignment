@@ -6,10 +6,15 @@ import { Block } from "@/models/Block.model";
 import Image from "next/image";
 import { applyEllipse } from "@/utils/primitives.util";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { FetchBlocks, blocksList, selectedBlock } from "@/atoms/blocks.atom";
 
 const BlocksTableView = () => {
   const router = useRouter();
-  const goToTxDetail = (blockHash: string) => router.push(`/tx/${blockHash}`);
+  const goToTxDetail = (block: Block) => {
+    setSelected(block);
+    router.push(`/tx/${block.blockHash}`);
+  };
 
   const [headerItems] = useState<string[]>([
     "Block Hash",
@@ -19,8 +24,10 @@ const BlocksTableView = () => {
     "Leader",
     "Reward",
   ]);
-  const [blocks, setBlocks] = useState<Block[]>();
+
   const [solanaPrice, setSolanaPrice] = useState<number>(0);
+  const [blocks, setBlocks] = useAtom(blocksList);
+  const [, setSelected] = useAtom(selectedBlock);
 
   useEffect(() => {
     const fetchSolPrice = async () => {
@@ -35,21 +42,13 @@ const BlocksTableView = () => {
       }
     };
 
-    const fetchBlocks = async () => {
-      const response = await fetch("/api/blocks");
-      const data = await response.json();
-      setBlocks(data);
-    };
-
     fetchSolPrice();
-    fetchBlocks();
-
-    return () => {};
+    FetchBlocks().then((blocks) => setBlocks(blocks));
   }, []);
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full text-white/60 whitespace-nowrap border-separate border-spacing-y-1">
+      <table className="min-w-full text-titanium whitespace-nowrap border-separate border-spacing-y-1">
         <thead className="text-xs text-left">
           <tr>
             {headerItems.map((item, index) => (
@@ -71,7 +70,7 @@ const BlocksTableView = () => {
               <tr
                 key={block.blockHash}
                 className="cursor-pointer hover:text-white rounded-2xl group"
-                onClick={() => goToTxDetail(block.blockHash)}
+                onClick={() => goToTxDetail(block)}
               >
                 <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary hover:underline rounded-tl-2xl rounded-bl-2xl">
                   {applyEllipse(block.blockHash)}

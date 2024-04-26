@@ -1,19 +1,33 @@
 "use client";
 
+import { FetchBlock, selectedBlock } from "@/atoms/blocks.atom";
 import Button from "@/components/elements/Button/Button";
 import Card from "@/components/elements/Card/Card";
+import { DateToRelativeTime } from "@/utils/DateToRelativeTime";
+import { applyEllipse, formatTimestamp } from "@/utils/primitives.util";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
+import { useEffect } from "react";
 import { BiSolidCopy } from "react-icons/bi";
 import { GoCheckCircleFill } from "react-icons/go";
+
 import { toast } from "react-toastify";
 
 interface TransactionDetailViewProps {}
 
 const TransactionDetailView = ({}: TransactionDetailViewProps) => {
+  const [selected, setSelected] = useAtom(selectedBlock);
+
   const router = useRouter();
   const params = useParams();
+
   const goBack = () => router.replace("/");
+
+  useEffect(() => {
+    if (!selected)
+      FetchBlock(params.txHash as string).then((block) => setSelected(block));
+  }, []);
 
   const notify = () =>
     toast(
@@ -23,6 +37,8 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
       </div>,
       { closeButton: false }
     );
+
+  if (!selected) return null;
 
   return (
     <div className="flex flex-col gap-10">
@@ -56,8 +72,8 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
           </div>
 
           <div className="w-full flex flex-col gap-1">
-            <h1 className="text-2xl">Block #249362853</h1>
-            <p className="text-white/60">Check the block details.</p>
+            <h1 className="text-2xl">Block #{selected.slot}</h1>
+            <p className="text-titanium">Check the block details.</p>
           </div>
         </div>
       </div>
@@ -66,12 +82,12 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
         <div className="flex gap-3">
           <Card className="w-1/4">
             <div className="flex flex-col gap-2">
-              <p className="text-white/60">Block</p>
+              <p className="text-titanium text-xs">Block</p>
               <div className="flex items-center gap-2 justify-center">
-                <p className="text-white">#249362853</p>
+                <p className="text-white">#{selected.slot}</p>
                 <BiSolidCopy
                   size={16}
-                  className="text-white/60 hover:text-white cursor-pointer"
+                  className="text-titanium hover:text-white cursor-pointer"
                   onClick={notify}
                 />
               </div>
@@ -79,40 +95,44 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
           </Card>
           <Card className="w-1/4">
             <div className="flex flex-col gap-2">
-              <p className="text-white/60">Timestamp</p>
-              <p className="text-white">1h 43m 12s ago</p>
+              <p className="text-titanium text-xs">Timestamp</p>
+              <p className="text-white">
+                <DateToRelativeTime date={new Date(selected.timestamp)} />
+              </p>
             </div>
           </Card>
           <Card className="w-1/4">
             <div className="flex flex-col gap-2">
-              <p className="text-white/60">Date (UTC)</p>
-              <p className="text-white">Feb 20, 2024 14:38:22</p>
+              <p className="text-titanium text-xs">Date (UTC)</p>
+              <p className="text-white">
+                {formatTimestamp(selected.timestamp)}
+              </p>
             </div>
           </Card>
           <Card className="w-1/4">
             <div className="flex flex-col gap-2">
-              <p className="text-white/60">Transactions</p>
-              <p className="text-white">1503</p>
+              <p className="text-titanium text-xs">Transactions</p>
+              <p className="text-white">{selected.txCount}</p>
             </div>
           </Card>
         </div>
 
         <Card className="w-full">
           <div className="flex flex-col gap-2">
-            <p className="text-white/60">Block Hash</p>
-            <p className="text-white">{params.txHash}</p>
+            <p className="text-titanium text-xs">Block Hash</p>
+            <p className="text-white">{selected.blockHash}</p>
           </div>
         </Card>
 
         <div className="flex gap-3">
           <Card className="w-1/2">
             <div className="flex flex-col gap-2">
-              <p className="text-primary">Leader</p>
+              <p className="text-titanium text-xs">Leader</p>
               <div className="flex items-center gap-2 justify-center">
-                <p className="text-white">249362853</p>
+                <p className="text-primary">{applyEllipse(selected.leader)}</p>
                 <BiSolidCopy
                   size={16}
-                  className="text-white/60 hover:text-white cursor-pointer"
+                  className="text-titanium hover:text-white cursor-pointer"
                   onClick={notify}
                 />
               </div>
@@ -120,7 +140,7 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
           </Card>
           <Card className="w-1/2">
             <div className="flex flex-col gap-2">
-              <p className="text-white/60">Reward</p>
+              <p className="text-titanium text-xs">Reward</p>
               <p className="text-white">1h 43m 12s ago</p>
             </div>
           </Card>
@@ -128,8 +148,8 @@ const TransactionDetailView = ({}: TransactionDetailViewProps) => {
 
         <Card className="w-full">
           <div className="flex flex-col gap-2">
-            <p className="text-white/60">Previous Block Hash</p>
-            <p className="text-white">{params.txHash}</p>
+            <p className="text-titanium text-xs">Previous Block Hash</p>
+            <p className="text-white">{selected.prevBlockHash}</p>
           </div>
         </Card>
       </div>

@@ -5,6 +5,7 @@ import Frame from "@/components/views/Frame";
 import { ToastContainer } from "react-toastify";
 
 import "./globals.css";
+import JotaiProvider from "@/providers/Jotai.provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={Gilroy.variable}>
-        <Frame>{children}</Frame>
+        <JotaiProvider>
+          <Frame>{children}</Frame>
+        </JotaiProvider>
         <ToastContainer />
       </body>
     </html>

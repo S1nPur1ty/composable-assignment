@@ -31,13 +31,13 @@ const Button = ({
   switch (variant) {
     case "outline":
       classNames += disabled
-        ? "border-solid border border-white_05 text-white/60"
+        ? "border-solid border border-white_05 text-titanium"
         : "border-solid border border-white/60 hover:border-white active:border-white/60";
       break;
     case "default":
     default:
       classNames += disabled
-        ? " bg-transparent text-white/60"
+        ? " bg-transparent text-titanium"
         : " bg-white_02 hover:bg-white_05 active:bg-white_02";
   }
 

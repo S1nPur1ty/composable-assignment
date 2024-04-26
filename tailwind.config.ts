@@ -15,6 +15,7 @@ const config: Config = {
       colors: {
         primary: "#52F2B9",
         peppermint: "#81FFD9",
+        titanium: "rgba(255,255,255,0.6)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

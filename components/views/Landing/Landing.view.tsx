@@ -21,7 +21,7 @@ const LandingView = ({}: LandingViewProps) => {
 
         <div className="w-full flex flex-col gap-1">
           <h1 className="text-2xl">Assignment block explorer</h1>
-          <p className="text-white/60">
+          <p className="text-titanium">
             Check list of blocks and detailed view.
           </p>
         </div>
@@ -29,7 +29,8 @@ const LandingView = ({}: LandingViewProps) => {
 
       <TextField
         prependIcon={<IoSearchOutline />}
-        placeholder="Search for transactions, blocks, accounts"
+        placeholder="Search for transactions, blocks & accounts"
+        className="placeholder-titanium"
       />
 
       <BlocksTableView />
