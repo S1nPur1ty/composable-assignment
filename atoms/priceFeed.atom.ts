@@ -1,6 +1,4 @@
-import { atom } from "jotai";
 import { atomWithQuery } from "jotai-tanstack-query";
-
 
 const solanaPriceAtom = atomWithQuery<number>(() => ({
   queryKey: ['price'],

@@ -1,50 +1,27 @@
-"use client";
-
-import { useState } from "react";
-import { DateToRelativeTime } from "@/components/elements/Other/DateToRelativeTime";
 import { Block } from "@/models/Block.model";
-import { applyEllipse } from "@/utils/primitives.util";
-import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import { blocksListAtom, selectedBlock } from "@/atoms/blocks.atom";
+import { blocksListAtom } from "@/atoms/blocks.atom";
 import { solanaPriceAtom } from "@/atoms/priceFeed.atom";
 import RetryableError from "@/components/elements/Errors/RetryableError";
-import SolanaIcon from "@/components/icons/solana.icon";
+import BlocksTableListItemView from "./blocks-table-list-item.view";
+import headerItems from "./blocks-table-header-items";
 
 interface BlocksTableViewProps {
   filter: string;
 }
 
 const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
-  const router = useRouter();
-
   const [
     {
-      data: solPrice,
+      data: solanaPriceUsd,
       isLoading: isLoadingSolPrice,
       isError: isErrorSolPrice,
       refetch: refetchSolPrice,
     },
   ] = useAtom(solanaPriceAtom);
 
-  const goToTxDetail = (block: Block) => {
-    setSelected(block);
-    router.push(`/tx/${block.blockHash}`);
-  };
-
-  const [headerItems] = useState<string[]>([
-    "Block Hash",
-    "Slot",
-    "Timestamp",
-    "Tx count",
-    "Leader",
-    "Reward",
-  ]);
-
   const [{ data: blocks, isLoading, isError, refetch }] =
     useAtom(blocksListAtom);
-
-  const [, setSelected] = useAtom(selectedBlock);
 
   if (isLoading) return <div>Loading</div>;
 
@@ -53,7 +30,7 @@ const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
 
   if (isLoadingSolPrice) return <div>Loading sol price</div>;
 
-  if (isErrorSolPrice || !solPrice)
+  if (isErrorSolPrice || !solanaPriceUsd)
     return (
       <RetryableError
         message="Failed to load price information | please wait 1 minute and try again"
@@ -89,39 +66,11 @@ const BlocksTableView = ({ filter }: BlocksTableViewProps) => {
         </thead>
         <tbody>
           {applyFilter().map((block: Block) => (
-            <tr
+            <BlocksTableListItemView
               key={block.blockHash}
-              className="cursor-pointer hover:text-white rounded-2xl group"
-              onClick={() => goToTxDetail(block)}
-            >
-              <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary hover:underline rounded-tl-2xl rounded-bl-2xl">
-                {applyEllipse(block.blockHash)}
-              </td>
-              <td className="p-4 text-primary hover:underline group-hover:bg-white_05 bg-white_02">
-                #{block.slot}
-              </td>
-              <td className="p-4 group-hover:bg-white_05 bg-white_02">
-                <DateToRelativeTime date={new Date(block.timestamp)} />
-              </td>
-              <td className="p-4 group-hover:bg-white_05 bg-white_02">
-                {block.txCount}
-              </td>
-              <td className="p-4 group-hover:bg-white_05 bg-white_02 text-primary hover:underline">
-                {applyEllipse(block.leader)}
-              </td>
-              <td className="p-4 flex items-center gap-2 rounded-tr-2xl group-hover:bg-white_05 bg-white_02 rounded-br-2xl">
-                <div className="bg-black w-4 h-4 p-1 rounded-full flex items-center justify-center">
-                  <SolanaIcon size="s" />
-                </div>
-                <p>
-                  {block.rewardSol.toFixed(2)} SOL (
-                  {solPrice
-                    ? "$" + (solPrice * block.rewardSol).toFixed(2)
-                    : "?"}
-                  )
-                </p>
-              </td>
-            </tr>
+              block={block}
+              solanaPriceUsd={solanaPriceUsd}
+            />
           ))}
         </tbody>
       </table>
